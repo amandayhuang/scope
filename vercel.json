@@ -2,7 +2,7 @@
   "crons": [
     {
       "path": "/api/generateHoroscope",
-      "schedule": "0 0 * * *"
+      "schedule": "0 7 * * *"
     }
   ],
   "functions": {
