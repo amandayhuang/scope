@@ -40,6 +40,8 @@ export default async function handler(
     apiKey: process.env.ANTHROPIC_API_KEY,
   });
 
+  console.log("created anthropic instance");
+
   const todaysDateString = getTodaysDateString();
 
   // if already has this date's horoscope return early
@@ -69,6 +71,7 @@ export default async function handler(
     ],
   });
   // console.log(msg);
+  console.log("returned from claude");
   // @ts-ignore
   const jsonResponse = JSON.parse(msg.content[0]?.text);
   let count = 0;
