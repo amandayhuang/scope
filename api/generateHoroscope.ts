@@ -34,8 +34,10 @@ export default async function handler(
   request: VercelRequest,
   response: VercelResponse
 ) {
+  const key = process.env.ANTHROPIC_API_KEY;
+  console.log("KEY", key ? true : false);
   const anthropic = new Anthropic({
-    apiKey: `${process.env.ANTHROPIC_API_KEY}`,
+    apiKey: process.env.ANTHROPIC_API_KEY,
   });
 
   const todaysDateString = getTodaysDateString();
