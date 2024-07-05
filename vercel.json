@@ -4,5 +4,8 @@
       "path": "/api/generateHoroscope",
       "schedule": "0 0 * * *"
     }
-  ]
+  ],
+  "api/generateHoroscope.ts": {
+    "maxDuration": 30
+  }
 }
