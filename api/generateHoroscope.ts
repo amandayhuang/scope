@@ -1,6 +1,6 @@
 import { sql } from "@vercel/postgres";
 import { VercelRequest, VercelResponse } from "@vercel/node";
-import { getTodaysDateString } from "../services/util";
+import { getTomorrowDateString } from "../services/util";
 import Anthropic from "@anthropic-ai/sdk";
 
 const VOICES = [
@@ -35,26 +35,21 @@ export default async function handler(
   response: VercelResponse
 ) {
   const key = process.env.ANTHROPIC_API_KEY;
-  console.log("KEY", key ? true : false);
   const anthropic = new Anthropic({
     apiKey: process.env.ANTHROPIC_API_KEY,
   });
 
-  console.log("created anthropic instance");
-
-  const todaysDateString = getTodaysDateString();
+  const tomorrowDateString = getTomorrowDateString();
 
   // if already has this date's horoscope return early
   const horoscopeCount =
-    await sql`SELECT * FROM horoscope where date(date) = ${todaysDateString};`;
+    await sql`SELECT * FROM horoscope where date(date) = ${tomorrowDateString};`;
   if (horoscopeCount?.rowCount && horoscopeCount?.rowCount > 0) {
     return response.status(200).json({ count: 0 });
   }
 
-  console.log("GOT COUNT", horoscopeCount?.rowCount);
-
   const voice = VOICES[Math.floor(Math.random() * VOICES.length)];
-  const prompt = `The response should only contain the JSON object, nothing else. can you give me a horoscope for each sign for the day after ${todaysDateString}. please format it as a JSON where each sign is a key and each value is another JSON with the date, sign, and horoscope of around 100 words in the voice of ${voice} (which will include the mention of a famous person with the same sign) as values, for example { "leo" : {date:"2024-07-02", sign: "leo", horscope: "the horscope longer than this:"} }`;
+  const prompt = `The response should only contain the JSON object, nothing else. can you give me a horoscope for each sign for ${tomorrowDateString}. please format it as a JSON where each sign is a key and each value is another JSON with the date, sign, and horoscope of around 100 words in the voice of ${voice} (which will include the mention of a famous person with the same sign) as values, for example { "leo" : {date:"2024-07-02", sign: "leo", horscope: "the horscope longer than this:"} }`;
 
   try {
     const msg = await anthropic.messages.create({
@@ -74,8 +69,6 @@ export default async function handler(
       ],
     });
 
-    console.log("claude RESP", msg);
-    console.log("returned from claude");
     // @ts-ignore
     const jsonResponse = JSON.parse(msg.content[0]?.text);
     let count = 0;
@@ -89,7 +82,6 @@ export default async function handler(
     }
     return response.status(200).json({ count });
   } catch (error) {
-    console.log("ERROR from claude", error);
     return response.status(200).json({ count: -1 });
   }
 }
