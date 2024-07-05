@@ -5,7 +5,9 @@
       "schedule": "0 0 * * *"
     }
   ],
-  "api/generateHoroscope.ts": {
-    "maxDuration": 30
+  "functions": {
+    "api/generateHoroscope.ts": {
+      "maxDuration": 30
+    }
   }
 }
