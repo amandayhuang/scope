@@ -54,22 +54,28 @@ export default async function handler(
   const voice = VOICES[Math.floor(Math.random() * VOICES.length)];
   const prompt = `The response should only contain the JSON object, nothing else. can you give me a horoscope for each sign for ${todaysDateString}. please format it as a JSON where each sign is a key and each value is another JSON with the date, sign, and horoscope of around 100 words in the voice of ${voice} (which will include the mention of a famous person with the same sign) as values, for example { "leo" : {date:"2024-07-02", sign: "leo", horscope: "the horscope longer than this:"} }`;
 
-  const msg = await anthropic.messages.create({
-    model: "claude-instant-1.2",
-    max_tokens: 2500,
-    temperature: 0,
-    messages: [
-      {
-        role: "user",
-        content: [
-          {
-            type: "text",
-            text: prompt,
-          },
-        ],
-      },
-    ],
-  });
+  try {
+    const msg = await anthropic.messages.create({
+      model: "claude-instant-1.2",
+      max_tokens: 2500,
+      temperature: 0,
+      messages: [
+        {
+          role: "user",
+          content: [
+            {
+              type: "text",
+              text: prompt,
+            },
+          ],
+        },
+      ],
+    });
+  } catch (error) {
+    console.log("ERROR from claude", error);
+    return response.status(200).json({ count: -1 });
+  }
+
   // console.log(msg);
   console.log("returned from claude");
   // @ts-ignore
