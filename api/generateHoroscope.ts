@@ -67,7 +67,7 @@ export default async function handler(
           content: [
             {
               type: "text",
-              text: "what is 1 plus 1",
+              text: prompt,
             },
           ],
         },
