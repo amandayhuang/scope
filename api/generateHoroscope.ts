@@ -15,7 +15,7 @@ const VOICES = [
   "fairy tale narrator",
 ];
 
-const SIGNS = [
+export const SIGNS = [
   "aries",
   "taurus",
   "gemini",
