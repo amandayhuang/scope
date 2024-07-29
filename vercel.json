@@ -1,12 +1,12 @@
 {
   "crons": [
     {
-      "path": "/api/generateHoroscope",
-      "schedule": "0 7 * * *"
+      "path": "/api/fetchExchangeRates",
+      "schedule": "0 1 * * *"
     }
   ],
   "functions": {
-    "api/generateHoroscope.ts": {
+    "api/fetchExchangeRates.ts": {
       "maxDuration": 30
     }
   }
