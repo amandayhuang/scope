@@ -7,6 +7,9 @@ export default async function handler(
   request: VercelRequest,
   response: VercelResponse
 ) {
+  response.setHeader("Access-Control-Allow-Origin", "*"); // Allow requests from any origin
+  response.setHeader("Access-Control-Allow-Methods", "GET, POST, OPTIONS");
+  response.setHeader("Access-Control-Allow-Headers", "Content-Type");
   const exchanges = await sql`SELECT DISTINCT ON (currency) 
     id,
     currency,
